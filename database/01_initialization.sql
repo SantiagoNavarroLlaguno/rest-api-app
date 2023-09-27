@@ -14,4 +14,6 @@ CREATE TABLE Restaurants (
     lng FLOAT                  -- Longitude
 );
 
+ALTER TABLE Restaurants ADD COLUMN geom geography(POINT, 4326);
+
 -- NOTE: After running this script, run the '02_importdata.sql' script to import data from the provided CSV file.
