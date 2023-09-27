@@ -3,6 +3,11 @@ from typing import List, Optional
 import psycopg2
 from pydantic import BaseModel
 from typing import Tuple
+import os
+
+app = FastAPI()
+
+DATABASE_URL = os.environ.get('DATABASE_URL', "postgresql://postgres:admin@localhost:5432/melp_db")
 
 app = FastAPI()
 
