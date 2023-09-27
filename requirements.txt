@@ -1,0 +1,5 @@
+fastapi[all]
+pydantic
+psycopg2
+uvicorn
+postGIS
