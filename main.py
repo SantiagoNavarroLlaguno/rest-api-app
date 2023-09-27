@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from typing import List, Optional
 import psycopg2
 from pydantic import BaseModel
+from typing import Tuple
 
 app = FastAPI()
 
@@ -20,6 +21,17 @@ class Restaurant(BaseModel):
     state: str
     lat: float
     lng: float
+
+
+class RestaurantStatistics(BaseModel):
+    count: int
+    avg: float
+    std: float
+
+
+@app.get("/")
+def root():
+    return {"Dear EDT Team": "Welcome to the Melp API!"}
 
 
 @app.get("/restaurants/", response_model=List[Restaurant])
@@ -89,6 +101,33 @@ def delete_restaurant(restaurant_id: str):
                 raise HTTPException(status_code=404, detail="Restaurant not found")
             return {"status": "Restaurant deleted successfully"}
 
+
+@app.get("/restaurants/statistics/")
+def get_statistics(latitude: float, longitude: float, radius: float):
+    with psycopg2.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cur:
+            # Find restaurants within the specified radius
+            query = """
+            SELECT 
+                COUNT(*), 
+                AVG(rating), 
+                STDDEV(rating)
+            FROM 
+                Restaurants 
+            WHERE 
+                ST_DWithin(geom, ST_MakePoint(%s, %s)::geography, %s);
+            """
+            cur.execute(query, (longitude, latitude, radius))
+            result = cur.fetchone()
+            count, avg, std = result
+
+            # Return results in the required JSON format
+            return {
+                "count": count,
+                "avg": float(avg) if avg is not None else None,
+                "std": float(std) if std is not None else None
+            }
+        
 
 if __name__ == "__main__":
     import uvicorn
