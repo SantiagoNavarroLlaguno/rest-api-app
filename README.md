@@ -9,7 +9,7 @@ Melp is a revolutionary application designed to provide users with relevant info
 - Pydantic
 - PostgreSQL (with PostGIS extension for spatial queries)
 - Uvicorn (for running the FastAPI app)
-- Heroku (for deployment)
+- Railway (for deployment)
 - Postman (for testing the API)
 - GitHub (code repository)
 
@@ -49,13 +49,13 @@ uvicorn main:app --reload
 
 A Postman collection is provided for testing the API endpoints:
 
-https://TBD
+https://api.postman.com/collections/30135057-4e10c5d0-f995-4428-ae3e-dbd2e81d5307?access_key=PMAT-01HBEZKAGFX97DXCVPZQE5TJKV
 
 ## Deployment
 
-The application is deployed on Heroku. You can access the live API at:
+The application is deployed on Railway. You can access the live API at:
 
-https://TBD
+https://rest-api-app-production.up.railway.app/
 
 ## Bonus
 
